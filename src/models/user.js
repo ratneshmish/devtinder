@@ -54,6 +54,15 @@ const userSchema=new mongoose.Schema({
             },
             message:"You can add a maximum of 5 skills"
         }
+    },
+     photoUrl: {                  // <-- Added photoUrl field
+        type: String,
+        default: "https://example.com/default-photo.jpg",
+        validate(value) {
+            if (!validator.isURL(value)) {
+                throw new Error("Invalid photo URL");
+            }
+        }
     }
 },{
     timestamps:true

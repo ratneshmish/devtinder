@@ -2,6 +2,8 @@ const express=require('express');
 const { UserAuth } = require('../middlewares/auth');
 const userRouter=express.Router();
 const connectionRequestmodel=require('../models/connectionrequest');
+const User=require("../models/user");
+const { set } = require('mongoose');
 
 userRouter.get("/user/request/received",UserAuth,async(req,res)=>{
     try{
@@ -37,5 +39,32 @@ catch(err){
 }
 
 })
-
+userRouter.get("/user/feed",UserAuth,async(req,res)=>{
+    try{
+        const page=parseInt(req.query.page)||1;
+        let limit=parseInt(req.query.limit)||10;
+        limit=limit>20?20:limit;
+        const skip=(page-1)*limit;
+      const loggedinUser=req.user;
+      const connection=await connectionRequestmodel.find({
+        $or:[
+            {fromuserId:loggedinUser._id},{toUserId:loggedinUser._id}
+        ]
+      }).select("fromuserId toUserId");
+      const hideuser=new Set();
+      connection.forEach(element => {
+        hideuser.add(element.fromuserId);
+        hideuser.add(element.toUserId);
+      });
+   const users=await User.find({
+   $and:[{ _id:{$nin:Array.from(hideuser)}},
+    {_id:{$ne:loggedinUser._id}},
+   ],
+   }).select("firstName lastName ").skip(skip).limit(limit);
+res.send(users);
+    }
+    catch(err){
+res.status(400).json({message:"ERROR"+err.message});
+    }
+})
 module.exports=userRouter;
