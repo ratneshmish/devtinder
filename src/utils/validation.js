@@ -1,7 +1,7 @@
 const validator=require('validator');
 
 const signupvalidation=(req)=>{
-const {firstName,email,lastName}=req.body;
+const {firstName,email,lastName,password}=req.body;
 if(!firstName||!lastName){
     throw new Error("Name is not valid");
 }
@@ -16,6 +16,7 @@ const allowedupdates=[
     'about',
     'skills',
     'age',
+    'photoUrl'
 ]
  const isvalid=Object.keys(req.body).every((k)=>allowedupdates.includes(k));
  return isvalid;

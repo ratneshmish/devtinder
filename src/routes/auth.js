@@ -41,8 +41,11 @@ try{
     password:passwordhash,
     email,
     });
-await user.save();
-res.send("user added successfully");
+    const saveduser=await user.save();
+  const token=await saveduser.getjwt();
+   res.cookie("token", token);
+   res.json({message:"user added successfully",data:saveduser});
+
 }
 catch(err){
     res.status(400).send({Error:err.message});

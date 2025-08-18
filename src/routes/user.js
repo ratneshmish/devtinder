@@ -11,7 +11,7 @@ userRouter.get("/user/request/received",UserAuth,async(req,res)=>{
      const connectionrequest=await connectionRequestmodel.find({
         toUserId:loggedinuser,
         Status:"interested"
-     }).populate("fromuserId","firstName lastName age");
+     }).populate("fromuserId","firstName lastName photoUrl about");
      res.json({message:"data fetched successfuly",
         data:connectionrequest
     })
@@ -26,7 +26,7 @@ userRouter.get("/user/connection",UserAuth,async(req,res)=>{
     const loggedinUser=req.user;
     const connectionreq=await connectionRequestmodel.find({
         $or:[{toUserId:loggedinUser,Status:"accepted"},{fromuserId:loggedinUser,Status:"accepted"}],
-    }).populate("fromuserId","firstName lastName").populate("toUserId","firstName lastName");
+    }).populate("fromuserId","firstName lastName about photoUrl").populate("toUserId","firstName lastName about photoUrl");
     const data=await connectionreq.map((row)=>{if(row.fromuserId._id.toString()===loggedinUser._id.toString()){
         return row.toUserId;
     }
@@ -39,7 +39,7 @@ catch(err){
 }
 
 })
-userRouter.get("/user/feed",UserAuth,async(req,res)=>{
+userRouter.get("/feed",UserAuth,async(req,res)=>{
     try{
         const page=parseInt(req.query.page)||1;
         let limit=parseInt(req.query.limit)||10;
@@ -60,7 +60,7 @@ userRouter.get("/user/feed",UserAuth,async(req,res)=>{
    $and:[{ _id:{$nin:Array.from(hideuser)}},
     {_id:{$ne:loggedinUser._id}},
    ],
-   }).select("firstName lastName ").skip(skip).limit(limit);
+   }).select("firstName lastName photoUrl age skills gender about").skip(skip).limit(limit);
 res.send(users);
     }
     catch(err){

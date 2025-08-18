@@ -36,6 +36,7 @@ const userSchema=new mongoose.Schema({
     },
     gender:{
         type:String,
+  
         validate(value){
             if(!["male","female","others"].includes(value)){
                 throw new Error("Gender data is not valid");
@@ -55,9 +56,9 @@ const userSchema=new mongoose.Schema({
             message:"You can add a maximum of 5 skills"
         }
     },
-     photoUrl: {                  // <-- Added photoUrl field
+     photoUrl: {
         type: String,
-        default: "https://example.com/default-photo.jpg",
+        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5yTxBxqX7UPLILheEuZbgOuYver2PQLQxuQ&s",
         validate(value) {
             if (!validator.isURL(value)) {
                 throw new Error("Invalid photo URL");
