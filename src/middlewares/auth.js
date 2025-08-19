@@ -10,7 +10,7 @@ const UserAuth = async (req, res, next) => {
     }
 
    
-    const decoded = jwt.verify(token, "Dev@tinder123#");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const { _id } = decoded;
 
     
