@@ -18,7 +18,12 @@ authRouter.post("/login",async(req,res)=>{
     
     const token= await user.getjwt();
     
-    res.cookie("token", token);
+    res.cookie("token", token,{
+  httpOnly: true,                            // protects from XSS
+  secure: true,                              // required on HTTPS
+  sameSite: "none",                          // required for cross-origin
+  path: "/",
+    });
     res.send(user);
     }
  }
@@ -43,7 +48,12 @@ try{
     });
     const saveduser=await user.save();
   const token=await saveduser.getjwt();
-   res.cookie("token", token);
+   res.cookie("token", token,{
+  httpOnly: true,                            // protects from XSS
+  secure: true,                              // required on HTTPS
+  sameSite: "none",                          // required for cross-origin
+  path: "/",
+   });
    res.json({message:"user added successfully",data:saveduser});
 
 }
