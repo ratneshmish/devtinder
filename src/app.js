@@ -9,7 +9,7 @@ require("dotenv").config()
 // console.log(process.env.MONGO_DB_URI);
 
 app.use(cors({
-    origin: "https://devspace-final.onrender.com",
+    origin: "https://devspace-frontend-9.onrender.com",
     credentials:true,
 }));
 
