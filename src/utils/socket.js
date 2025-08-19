@@ -3,7 +3,7 @@ const socket = require("socket.io");
 const initializesocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: "https://devspace-frontend-9.onrender.com",
     },
   });
 
