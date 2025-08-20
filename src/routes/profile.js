@@ -20,9 +20,12 @@ ProfileRouter.patch("/profile/edit",UserAuth,async(req,res)=>{
       throw new Error("Cannot edit this");
     }
     const user=req.user;
+    console.log("before",user);
     Object.keys(req.body).forEach((key)=>(user[key]=req.body[key]));
     await user.save();
-    res.send(`${user.firstName}, your profile has been updated`);
+    console.log("updated",user);
+    res.status(200).send(user);
+
   }
   catch(err){
   res.status(400).send("ERROR :"+err.message);

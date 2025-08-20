@@ -7,10 +7,14 @@ const initializesocket=require('./utils/socket');
 require("dotenv").config()
 
 // console.log(process.env.MONGO_DB_URI);
-
+// const allowedOrigins=[
+//      "https://devspace-frontend-9.onrender.com",
+//         "http://localhost:5173",
+// ]
 app.use(cors({
-    origin: "https://devspace-frontend-9.onrender.com",
-    credentials:true,
+    origin:  "https://devspace-frontend-9.onrender.com",
+    credentials: true,
+
 }));
 
 const cookie=require('cookie-parser');

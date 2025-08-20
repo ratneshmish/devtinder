@@ -36,7 +36,7 @@ authRouter.post("/signup",async(req,res)=>{
 try{
     //validation of data
     signupvalidation(req);
-    const {password,email,lastName,firstName}=req.body;
+    const {password,email,lastName,firstName,gender,age}=req.body;
 //encryption of password
 
  const passwordhash=  await bcrypt.hash(password, 10);
@@ -45,6 +45,8 @@ try{
     lastName,
     password:passwordhash,
     email,
+    age,
+    gender,
     });
     const saveduser=await user.save();
   const token=await saveduser.getjwt();

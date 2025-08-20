@@ -16,7 +16,9 @@ const allowedupdates=[
     'about',
     'skills',
     'age',
-    'photoUrl'
+    'photoUrl',
+    'skills',
+    'gender'
 ]
  const isvalid=Object.keys(req.body).every((k)=>allowedupdates.includes(k));
  return isvalid;
